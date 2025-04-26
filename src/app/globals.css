@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html {
+  font-size: 10px;
+}
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+
+body {
+  color: #333333      ;
+  background: var(--background);
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (min-width: 320px) {
+  body {
+    font-size: 10px; /* Dành cho thiết bị di động rất nhỏ */
+  }
+}
+
+@media (min-width: 480px) {
+  body {
+    font-size: 11px; /* Thiết bị di động nhỏ, vừa */
+  }
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 12px; /* Màn hình điện thoại vừa */
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 14px; /* Màn hình tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px; /* Màn hình laptop */
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: 18px; /* Màn hình desktop */
+  }
+}
+
+@media (min-width: 1536px) {
+  body {
+    font-size: 20px; /* Màn hình lớn */
+  }
+}
+
+@media (min-width: 1920px) {
+  body {
+    font-size: 22px; /* Màn hình rất lớn (Full HD và hơn) */
+  }
+}
+.scroll-container {
+  -ms-overflow-style: none;  /* Cho phép ẩn thanh cuộn trên Internet Explorer */
+  scrollbar-width: none;  /* Ẩn thanh cuộn trên Firefox */
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;  /* Ẩn thanh cuộn trên Chrome, Safari, Opera */
+}
+
+
