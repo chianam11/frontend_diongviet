@@ -5,77 +5,139 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
-html {
-  font-size: 10px;
-}
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-
-body {
-  color: #333333      ;
-  background: var(--background);
-  font-size: 16px;
-  font-family: 'Roboto', sans-serif;
 }
-
-@media (min-width: 320px) {
-  body {
-    font-size: 10px; /* Dành cho thiết bị di động rất nhỏ */
-  }
-}
-
-@media (min-width: 480px) {
-  body {
-    font-size: 11px; /* Thiết bị di động nhỏ, vừa */
-  }
-}
-
-@media (min-width: 640px) {
-  body {
-    font-size: 12px; /* Màn hình điện thoại vừa */
-  }
-}
-
-@media (min-width: 768px) {
-  body {
-    font-size: 14px; /* Màn hình tablet */
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    font-size: 16px; /* Màn hình laptop */
-  }
-}
-
-@media (min-width: 1280px) {
-  body {
-    font-size: 18px; /* Màn hình desktop */
-  }
-}
-
-@media (min-width: 1536px) {
-  body {
-    font-size: 20px; /* Màn hình lớn */
-  }
-}
-
-@media (min-width: 1920px) {
-  body {
-    font-size: 22px; /* Màn hình rất lớn (Full HD và hơn) */
-  }
+html, body {
+  max-width: 100vw;
+  touch-action: manipulation;
 }
 .scroll-container {
-  -ms-overflow-style: none;  /* Cho phép ẩn thanh cuộn trên Internet Explorer */
-  scrollbar-width: none;  /* Ẩn thanh cuộn trên Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+  scrollbar-width: none;     /* Firefox */
 }
 
 .scroll-container::-webkit-scrollbar {
-  display: none;  /* Ẩn thanh cuộn trên Chrome, Safari, Opera */
+  display: none;             /* Chrome, Safari */
 }
 
+.default-text-color{
+  color: #BE1E2D;
+  
+}
+.default-bg-color{
+  background: #BE1E2D;
+  
+}
+/* From Uiverse.io by aaronross1 */ 
+.typing-indicator {
+  width: 60px;
+  height: 30px;
+  position: relative;
+  z-index: 4;
+}
 
+.typing-circle {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #BE1E2D;
+  left: 15%;
+  transform-origin: 50%;
+  animation: typing-circle7124 0.5s alternate infinite ease;
+}
+
+@keyframes typing-circle7124 {
+  0% {
+    top: 20px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 8px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.typing-circle:nth-child(2) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typing-circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
+}
+
+.typing-shadow {
+  width: 5px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 30px;
+  transform-origin: 50%;
+  z-index: 3;
+  left: 15%;
+  filter: blur(1px);
+  animation: typing-shadow046 0.5s alternate infinite ease;
+}
+
+@keyframes typing-shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.4;
+  }
+}
+
+.typing-shadow:nth-child(4) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typing-shadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.3s;
+}
+.typing-indicator {
+  display: flex;
+  gap: 6px;
+}
+
+.typing-circle {
+  width: 12px;
+  height: 12px;
+  background-color: #BE1E2D; /* blue-500 */
+  border-radius: 50%;
+  animation: bounce 0.6s infinite alternate;
+}
+
+.typing-circle:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-circle:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}

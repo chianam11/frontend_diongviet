@@ -1,12 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRightIcon } from "@heroicons/react/24/outline";
-import { useDispatch, useSelector } from "react-redux";
+import { ChevronUpIcon } from "@heroicons/react/24/outline";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Image from "next/image";
+
 const categories = [
   {
+    id: 1,
     name: "Điện thoại",
+    src: "/categoryIcon_1.webp",
+    subtitle: "Thương hiệu",
     subcategories: [
       "iPhone",
       "Samsung",
@@ -17,155 +22,178 @@ const categories = [
       "Honor",
       "Điện thoại cũ",
     ],
+    brands: ["Apple", "Samsung", "OPPO", "Xiaomi", "realme", "Vivo", "Nokia", "Sony"],
+    Hot: [
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+    ],
   },
   {
+    id: 2,
     name: "Tablet",
+    src: "/categoryIcon_2.webp",
+    subtitle: "Thương hiệu",
     subcategories: ["iPad", "Samsung Galaxy Tab", "Lenovo Tab"],
+    brands: ["Apple", "Samsung", "OPPO", "Xiaomi", "realme", "Vivo", "Nokia", "Sony"],
+    Hot: [
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+      {
+        image: "/products/iphone15.webp",
+        name: "iPhone 15 Pro Max",
+      },
+    ],
   },
   {
+    id: 3,
     name: "Mac",
+    src: "/categoryIcon_3.webp",
     subcategories: ["MacBook Air", "MacBook Pro"],
   },
   {
+    id: 4,
     name: "Máy cũ giá rẻ",
+    src: "/categoryIcon_4.webp",
     subcategories: ["Điện thoại cũ", "Laptop cũ", "Máy tính bảng cũ"],
   },
   {
+    id: 5,
     name: "Phụ kiện",
-    subcategories: [
-      "Sạc & Cáp",
-      "Ốp lưng",
-      "Tai nghe",
-      "Chuột & Bàn phím",
-      "Cường lực",
-    ],
+    src: "/categoryIcon_10.webp",
+    subcategories: ["Sạc & Cáp", "Ốp lưng", "Tai nghe", "Chuột & Bàn phím", "Cường lực"],
   },
   {
+    id: 6,
     name: "Đồng hồ",
-    subcategories: [
-      "Apple Watch",
-      "Samsung Galaxy Watch",
-      "Đồng hồ thông minh",
-    ],
+    src: "/categoryIcon_11.webp",
+    subtitle: "Thương hiệu",
+    subcategories: ["Apple Watch", "Samsung Galaxy Watch", "Đồng hồ thông minh"],
   },
   {
+    id: 7,
     name: "Âm thanh",
+    src: "/categoryIcon_6.webp",
     subcategories: ["Tai nghe không dây", "Loa Bluetooth"],
   },
   {
-    name: "Sức khỏe & Gia dụng",
-    subcategories: ["Máy lọc không khí", "Cân sức khỏe", "Máy massage"],
-  },
-  {
+    id: 8,
     name: "Apple (AAR)",
+    src: "/categoryIcon_12.webp",
+    subtitle: "Thương hiệu",
     subcategories: ["iPhone", "MacBook", "iPad", "Apple Watch"],
   },
   {
+    id: 9,
     name: "Xe điện",
+    src: "/categoryIcon_9.webp",
     subcategories: ["Xe máy điện", "Xe đạp điện"],
   },
   {
+    id: 10,
     name: "Màn hình & Tivi",
+    src: "/categoryIcon_15.webp",
     subcategories: ["Màn hình máy tính", "Smart TV"],
   },
   {
+    id: 11,
     name: "Thu cũ đổi mới",
+    src: "/categoryIcon_16.webp",
+    subtitle: "Thương hiệu",
     subcategories: ["Thu cũ iPhone", "Thu cũ MacBook", "Thu cũ iPad"],
-  },
-  {
-    name: "Khuyến mãi",
-    subcategories: ["Giảm giá HOT", "Mua 1 tặng 1"],
-  },
-  {
-    name: "Công nghệ 24H",
-    subcategories: ["Tin tức công nghệ", "Đánh giá sản phẩm"],
   },
 ];
 
 const CategoryMenu = () => {
-  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
-  const [activeCategory, setActiveCategory] = useState<boolean | false>(false);
-const isOpen = useSelector((state: RootState) => state.sidebar.value);
+  const [hoveredCategory, setHoveredCategory] = useState<number | null>(1); // Mặc định là id = 1
+  const [activeCategory, setActiveCategory] = useState<number | null>(1);   // Mặc định là id = 1
+  const isOpen = useSelector((state: RootState) => state.sidebar.value);
 
-//   const dispatch = useDispatch();
-  return (
-    <div className="relative py-3">
-      {/* Danh mục chính */}
-      <ul className="w-64  max-h-screen bg-white shadow-lg rounded-md overflow-y-auto scroll-container font-bold pb-20">
+  return (<>{isOpen&& <div className="relative py-3 z-50">
+      <ul className="w-20 scroll-container overflow-y-auto overflow-x-hidden max-h-screen  bg-white shadow-lg rounded-md font-bold pb-20">
         {categories.map((category) => (
           <li
-            key={category.name}
-            
-            onMouseEnter={() => !isOpen&& setHoveredCategory(category.name)}
-            onMouseLeave={() =>!isOpen&& setHoveredCategory(null)}
+            key={category.id}
+            onMouseEnter={() => !isOpen && setHoveredCategory(category.id)}
+            onMouseLeave={() => !isOpen && setHoveredCategory(null)}
             onClick={() => {
-              setActiveCategory(true);
-              setHoveredCategory(category.name)
+              setActiveCategory(category.id);
+              setHoveredCategory(category.id);
             }}
-            className={`flex items-center justify-center p-7 cursor-pointer  relative bg-[#FEF2F2]
-                 ${
-                  hoveredCategory === category.name
-                    ? "bg-[#FFFFFF]"
-                    : "bg-[#FEF2F2]"
-                }
-                `}
+            className={`flex items-center justify-center cursor-pointer relative transition-all 
+              ${hoveredCategory === category.id ? "bg-white" : "bg-[#FEF2F2]"}`}
           >
-            {activeCategory && (
+            {activeCategory === category.id && (
               <span
-                className={`absolute left-0 top-0 h-full w-3 bg-red-500 transition-all
-                ${
-                  hoveredCategory === category.name
-                    ? "opacity-100"
-                    : "opacity-0"
+                className={`absolute left-0 top-0 h-full w-2 bg-red-500 transition-all ${
+                  hoveredCategory === category.id ? "opacity-100" : "opacity-0"
                 }`}
-              ></span>
+              />
             )}
-
-            <div className="p-4 flex flex-col justify-center items-center gap-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-7"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
-                />
-              </svg>
-              <span>{category.name}</span>
+            <div className="p-4 relative flex flex-col justify-center items-center gap-2">
+              <Image
+                src={category.src}
+                alt={category.name}
+                className="w-7 h-7 transform transition-transform duration-300 hover:scale-105"
+                width={80}
+                height={80}
+              />
+              <span className="text-center text-xs">{category.name}</span>
             </div>
-            <ChevronRightIcon className="w-5 h-5 text-gray-500" />
+            <ChevronUpIcon className={ `"w-5 h-5 text-gray-500 absolute right-0 transition-transform duration-500 ease-in-out" ${hoveredCategory === category.id && "-rotate-[-90deg] text-red-300"} `} />
           </li>
         ))}
       </ul>
 
-      {/* Danh mục con */}
-      {hoveredCategory && (
+      {hoveredCategory !== null && (
         <div
-          className="absolute left-64 ml-3  top-0 mt-3 bottom-0 right-2  bg-white shadow-lg rounded-md p-4 min-w-[200px] max-h-screen overflow-y-auto"
-          onMouseEnter={() =>!isOpen&& setHoveredCategory(hoveredCategory)}
-          onMouseLeave={() =>!isOpen&& setHoveredCategory(null)}
+          className="scroll-container absolute top-0 mt-3 bottom-0 left-[5.4rem] bg-white shadow-lg rounded-md p-4 min-w-[230px] max-h-screen overflow-y-auto"
+          onMouseEnter={() => !isOpen && setHoveredCategory(hoveredCategory)}
+          onMouseLeave={() => !isOpen && setHoveredCategory(null)}
         >
-          <h3 className="font-semibold mb-2">{hoveredCategory}</h3>
+          <h3 className="font-semibold mb-2">
+            {categories.find((cat) => cat.id === hoveredCategory)?.name}
+          </h3>
           <ul>
             {categories
-              .find((cat) => cat.name === hoveredCategory)
+              .find((cat) => cat.id === hoveredCategory)
               ?.subcategories.map((sub, index) => (
                 <li
                   key={index}
-                  className="py-1 text-gray-700 hover:text-red-500 cursor-pointer"
+                  className="py-1 text-gray-700 hover:text-red-500 cursor-pointer text-sm"
                 >
                   {sub}
+                  
                 </li>
               ))}
           </ul>
         </div>
       )}
-    </div>
+    </div>} </>
+   
   );
 };
 

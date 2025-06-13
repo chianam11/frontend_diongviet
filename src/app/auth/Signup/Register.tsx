@@ -1,6 +1,6 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -17,101 +17,112 @@ const Register = () => {
   };
 
   return (
-    <div className="h-[100vh] flex items-center justify-center">
-      <div className="xs:w-[30.8rem] sm:w-[33.8rem] md:w-[35.8rem] lg:w-[37.8rem] xl:w-[40rem] 2xl:w-[42rem] 3xl:w-[45rem] xs:h-[55rem] sm:h-[60.5rem] md:h-[63rem] lg:h-[64rem] xl:h-[66rem] 2xl:h-[67rem] 3xl:h-[68rem] rounded-2xl shadow-2xl px-[3.5rem] py-[3rem]">
-        
-        {/* Link Quay lại Login */}
-        <Link
-          href="/auth/login"
-          className="absolute top-[1rem] left-[1rem] text-blue-500 text-[1.5rem] flex items-center gap-2 hover:underline"
-        >
-          <FontAwesomeIcon icon={faArrowLeft} />
-          <span>Quay lại Login</span>
-        </Link>
+    <div className="max-w-[450px] mx-auto lg:mt-3 relative">
+      {/* Link quay lại Login */}
 
-        <p className="text-center font-black text-[2.1rem] mt-[2rem] xs:text-[1.58rem] sm:text-[1.88rem] md:text-[2.16rem] lg:text-[2.34rem] xl:text-[2.52rem] 2xl:text-[2.7rem] 3xl:text-[2.88rem]">
-          Register
-        </p>
-        <form onSubmit={handleSubmit} className="mt-9">
-          <div className="flex flex-col relative h-[6rem] py-6 mt-5">
-            <label htmlFor="name" className="text-[1.2rem] font-thin xs:text-[0.77rem] sm:text-[0.85rem] md:text-[0.93rem] lg:text-[1rem] xl:text-[1.1rem] 2xl:text-[1.2rem] 3xl:text-[1.3rem]">
-              Your Name
+      <div className="w-full bg-white py-10 px-5 lg:px-10 rounded-lg shadow-xl">
+        <h2 className="text-2xl text-center font-bold mb-5 lg:text-3xl">
+          Tạo mới tài khoản
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          {/* Name */}
+          <div className="mb-5">
+            <label htmlFor="name" className="block text-sm font-medium mb-1">
+              Tên của bạn
             </label>
             <input
               type="text"
               id="name"
-              className="xs:text-[1.23rem] sm:text-[1.35rem] md:text-[1.44rem] lg:text-[1.52rem] xl:text-[1.6rem] 2xl:text-[1.76rem] 3xl:text-[1.92rem] text-[1.2rem] border-b-2 border-gray-300 focus:border-gray-500 focus:rounded-md focus:shadow-lg outline-none w-full p-3"
               placeholder="abcxyz..."
               maxLength={100}
+              className="w-full border shadow-sm p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
-          <div className="flex flex-col relative h-[6rem] py-6 mt-5">
-            <label htmlFor="name" className="text-[1.2rem] font-thin xs:text-[0.77rem] sm:text-[0.85rem] md:text-[0.93rem] lg:text-[1rem] xl:text-[1.1rem] 2xl:text-[1.2rem] 3xl:text-[1.3rem]">
-              Your Email
+
+          {/* Email */}
+          <div className="mb-5">
+            <label htmlFor="email" className="block text-sm font-medium mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="abcxyz@example.com"
+              maxLength={100}
+              className="w-full border shadow-sm p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-300"
+            />
+          </div>
+
+          {/* Phone */}
+          <div className="mb-5">
+            <label htmlFor="phone" className="block text-sm font-medium mb-1">
+              Số điện thoại
             </label>
             <input
               type="text"
-              id="name"
-              className="xs:text-[1.23rem] sm:text-[1.35rem] md:text-[1.44rem] lg:text-[1.52rem] xl:text-[1.6rem] 2xl:text-[1.76rem] 3xl:text-[1.92rem] text-[1.2rem] border-b-2 border-gray-300 focus:border-gray-500 focus:rounded-md focus:shadow-lg outline-none w-full p-3"
-              placeholder="abcxyz..."
+              id="phone"
+              placeholder="0123456789"
               maxLength={100}
+              className="w-full border shadow-sm p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
-          <div className="flex flex-col relative h-[6rem] py-6 mt-5">
-            <label htmlFor="name" className="text-[1.2rem] font-thin xs:text-[0.77rem] sm:text-[0.85rem] md:text-[0.93rem] lg:text-[1rem] xl:text-[1.1rem] 2xl:text-[1.2rem] 3xl:text-[1.3rem]">
-              Your Phone Number
+
+          {/* Password */}
+          <div className="mb-5 relative">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1"
+            >
+              Mật khẩu
             </label>
             <input
-              type="text"
-              id="name"
-              className="xs:text-[1.23rem] sm:text-[1.35rem] md:text-[1.44rem] lg:text-[1.52rem] xl:text-[1.6rem] 2xl:text-[1.76rem] 3xl:text-[1.92rem] text-[1.2rem] border-b-2 border-gray-300 focus:border-gray-500 focus:rounded-md focus:shadow-lg outline-none w-full p-3"
-              placeholder="abcxyz..."
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="******"
               maxLength={100}
+              className="w-full border shadow-sm p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-300"
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+              onClick={handleTogglePassword}
             />
           </div>
-          <div className="flex flex-col relative h-[6rem] py-6 mt-5">
-            <label htmlFor="password" className="text-[1.2rem] font-medium xs:text-[0.77rem] sm:text-[0.85rem] md:text-[0.93rem] lg:text-[1rem] xl:text-[1.1rem] 2xl:text-[1.2rem] 3xl:text-[1.3rem]">
-              Password
+
+          {/* Confirm Password */}
+          <div className="relative">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium mb-1"
+            >
+              Xác nhận mật khẩu
             </label>
-            <div className="relative w-full">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="******"
-                className="xs:text-[1.23rem] sm:text-[1.35rem] md:text-[1.44rem] lg:text-[1.52rem] xl:text-[1.6rem] 2xl:text-[1.76rem] 3xl:text-[1.92rem] text-[1.2rem] border-b-2 border-gray-300 focus:border-gray-500 focus:rounded-md focus:shadow-lg outline-none w-full p-3"
-                maxLength={100}
-              />
-              <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
-                className="absolute right-[1rem] top-1/2 transform -translate-y-1/2 cursor-pointer xs:w-[1.54rem] sm:w-[1.69rem] md:w-[1.8rem] lg:w-[1.9rem] xl:w-[2rem] 2xl:w-[2.2rem] 3xl:w-[2.4rem]"
-                onClick={handleTogglePassword}
-              />
-            </div>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="confirmPassword"
+              placeholder="******"
+              maxLength={100}
+              className="w-full border shadow-sm p-3 rounded-lg outline-none focus:ring-2 focus:ring-gray-300"
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+              onClick={handleTogglePassword}
+            />
           </div>
-          <div className="flex flex-col relative h-[6rem] py-6 mt-5">
-            <label htmlFor="password" className="text-[1.2rem] font-medium xs:text-[0.77rem] sm:text-[0.85rem] md:text-[0.93rem] lg:text-[1rem] xl:text-[1.1rem] 2xl:text-[1.2rem] 3xl:text-[1.3rem]">
-              Confirm Password
-            </label>
-            <div className="relative w-full">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="******"
-                className="xs:text-[1.23rem] sm:text-[1.35rem] md:text-[1.44rem] lg:text-[1.52rem] xl:text-[1.6rem] 2xl:text-[1.76rem] 3xl:text-[1.92rem] text-[1.2rem] border-b-2 border-gray-300 focus:border-gray-500 focus:rounded-md focus:shadow-lg outline-none w-full p-3"
-                maxLength={100}
-              />
-              <FontAwesomeIcon
-                icon={showPassword ? faEyeSlash : faEye}
-                className="absolute right-[1rem] top-1/2 transform -translate-y-1/2 cursor-pointer xs:w-[1.54rem] sm:w-[1.69rem] md:w-[1.8rem] lg:w-[1.9rem] xl:w-[2rem] 2xl:w-[2.2rem] 3xl:w-[2.4rem]"
-                onClick={handleTogglePassword}
-              />
-            </div>
-          </div>
+          <Link
+            href="/auth/login"
+            className=" underline text-blue-500 block text-center my-2 hover:underline"
+          >
+            Quay lại trang đăng nhập
+          </Link>
+          {/* Submit button */}
           <button
             type="submit"
-            className="xs:text-[0.9rem] sm:text-[1rem] md:text-[1.1rem] lg:text-[1.2rem] xl:text-[1.3rem] 2xl:text-[1.4rem] 3xl:text-[1.5rem] w-full bg-red-500 text-white py-3 rounded-md mt-[6rem]"
+            className="w-full bg-red-500 text-white p-3 rounded-lg font-medium"
           >
-            Join now
+            Đăng ký
           </button>
         </form>
       </div>

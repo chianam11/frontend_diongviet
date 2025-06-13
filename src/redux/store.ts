@@ -3,7 +3,9 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import { counterSlice } from './counterSlice'
 import sidebarSlice from './isSiderbar/OpenSiderbarSlice'
 import authSlice from './user/userSlice'
-
+import cartSlice from './cartSlice/cart_slice'
+import loaderSlice from './loaderSlide/loader.slice'
+import productSlice from './productSlice/product.Slice'
 import {
   persistStore,
   persistReducer,
@@ -21,13 +23,16 @@ const rootReducer = combineReducers({
   counter: counterSlice.reducer,
   sidebar: sidebarSlice.reducer,
   authSlice: authSlice.reducer,
+  cart:cartSlice.reducer,
+  loader:loaderSlice.reducer,
+  products:productSlice.reducer,
 })
 
 // Cấu hình redux-persist
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['authSlice'], // chỉ lưu slice bạn cần
+  whitelist: ['authSlice',"cart","products"], // chỉ lưu slice bạn cần
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -48,3 +53,4 @@ export const persistor = persistStore(store)
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+

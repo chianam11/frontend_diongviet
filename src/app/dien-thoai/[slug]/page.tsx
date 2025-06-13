@@ -1,78 +1,76 @@
-import { notFound } from 'next/navigation';
-import axiosInstance from '@/axios/axiosInstance';
-import Image from 'next/image';
-import type { Metadata, ResolvingMetadata } from 'next';
-import ChevronLeft from '@/components/chevronIcon/ChevronLeft';
-import ChevronRight from '@/components/chevronIcon/ChevronRight';
+import type { Metadata } from "next";
+import PhoneSlide from "../phoneSlide/PhoneSlide";
+import ProductDetails from "../productDetails/ProductDetails";
+import PayingOrAddToCard from "../PayingOrAddToCard";
+import Test from "../productDetails/Test";
+import OtherPhoneInfo from "../productDetails/OtherPhoneIf";
+import Promotion from "../productDetails/Promotion";
+import BreadcrumbAuto from "@/components/BreadcrumbAuto";
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
-export async function generateMetadata(
-  { params }: { params: PageParams },
-  parent: ResolvingMetadata
-): Promise<Metadata> {
-  const slug = params.slug as string;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
 
-  const res = await axiosInstance.get(`/api/v1/products/phones/${slug}`);
-
-  if (!res.data) {
-    return {
-      title: 'Post not found',
-      description: 'This product does not exist',
-    };
-  }
+  const { slug } = await params;
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  // fetch data
+  const product = await fetch(`${apiUrl}/api/v1/products/phones/${slug}`).then(
+    (res) => res.json()
+  );
 
   return {
-    title: res.data.name,
-    description: res.data.description,
-    openGraph: {
-      title: res.data.name,
-      description: res.data.description,
-     
-    },
+    title: product.name,
   };
 }
-export default async function Page({
-  params,
-}: {
-  params: { slug: string }
-}) {
-  try {
-    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-    const res = await axiosInstance.get(
-      `${apiBase}/api/v1/products/phones/${params.slug}`
-    );
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+  const product = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/products/phones/${slug}`
+  ).then((res) => res.json());
+  const productName = product.name;
+  console.log(productName);
 
-    const product: { name: string; product_image?: string } | null = res.data;
+  return (
+    <div className="lg:p-10">
+      <h1 className="font-bold text-[1.05rem] border-b py-2 mb-3  border-gray-300 ">
+        {product.name}
+      </h1>
+      <BreadcrumbAuto name={productName} />
+      <div className="lg:flex gap-4">
+        <div className="shadow-2xl rounded-xl lg:p-5">
+          <PhoneSlide image_arr={product.images} />
+        </div>
 
-    if (!product || !product.name) return notFound();
+        <div className="shadow-2xl rounded-xl lg:p-5">
+          <div className="mt-3">
+            <div className="mt-5">
+              <p className="text-lg font-semibold">{product.name}</p>
+              <p className="p-2 default-text-color font-bold">
+                <span>Giá bán:</span>
+                {product?.price.toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                })}
+              </p>
+              <PayingOrAddToCard slug={product.slug} />
+            </div>
 
-    return (
-      <div>
-        <h1>{product.name}</h1>
-        <div className="relative">
-          <div className="absolute left-0 top-[50%]">
-            <ChevronLeft />
+            <div className="lg:hidden">
+              <OtherPhoneInfo />
+            </div>
+            <div className="hidden lg:block">
+              <Promotion />
+            </div>
           </div>
-          <Image
-            src={
-              product.product_image?.startsWith('http')
-                ? product.product_image
-                : `${apiBase}/images/products/${product.product_image || ''}`
-            }
-            alt={product.name}
-            className="w-full h-auto"
-            width={150}
-            height={150}
-            priority
-          />
-          <div className="absolute right-0 top-[50%]">
-            <ChevronRight />
-          </div>
+
+          <Test>
+            <ProductDetails />{" "}
+          </Test>
         </div>
       </div>
-    );
-  } catch (error) {
-    console.error('Fetch product error:', error);
-    return notFound();
-  }
+    </div>
+  );
 }

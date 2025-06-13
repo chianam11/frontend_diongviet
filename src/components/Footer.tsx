@@ -3,86 +3,62 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaTiktok } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 p-4 md:p-6">
-      <div className="max-w-6xl mx-auto">
+    <footer className="bg-gray-100 p-4 md:p-6 text-base">
+      <div className="max-w-screen-xl mx-auto space-y-6">
         {/* Tổng đài hỗ trợ */}
-        <div className="mb-4 md:mb-6">
-          <h3 className="text-xl font-semibold">Tổng đài hỗ trợ (Miễn phí)</h3>
-          <ul className="mt-2 text-xl">
-            <li>
-                <pre>Mua ngay:                            <span className="text-red-500 font-medium">1800.6018</span> (07:30 – 21:30)</pre>
-              
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Tổng đài hỗ trợ (Miễn phí)</h3>
+          <ul className="mt-2 space-y-2">
+            <li className="flex justify-between flex-wrap">
+              <span>Mua ngay:</span>
+              <span className="text-red-500 font-medium">1800.6018 (07:30 – 21:30)</span>
             </li>
-            <li>
-                <pre>Bảo hành tại Viện Di Động:           <span className="text-red-500 font-medium">1800.6729</span> (08:30 – 21:30)</pre>
-             
+            <li className="flex justify-between flex-wrap">
+              <span>Bảo hành tại Viện Di Động:</span>
+              <span className="text-red-500 font-medium">1800.6729 (08:30 – 21:30)</span>
             </li>
-            <li>
-                <pre>Góp ý:                               <span className="text-red-500 font-medium">1800.6306</span> (08:30 – 21:30)</pre>
-             
+            <li className="flex justify-between flex-wrap">
+              <span>Góp ý:</span>
+              <span className="text-red-500 font-medium">1800.6306 (08:30 – 21:30)</span>
             </li>
           </ul>
         </div>
 
         {/* Đối tác */}
-        <div className="mb-4 md:mb-6">
-          <h3 className=" text-xl font-semibold">Đối tác Di Động Việt</h3>
-          <div className="flex gap-10 mt-2">
-            <Link href="#" className="text-blue-600 text-4xl">
-              <FaFacebookF />
-            </Link>
-            <Link href="#" className="text-pink-600 text-4xl">
-              <FaInstagram />
-            </Link>
-            <Link href="#" className="text-red-600 text-4xl">
-              <FaYoutube />
-            </Link>
-            <Link href="#" className="text-black text-4xl">
-              <FaTiktok />
-            </Link>
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Đối tác Di Động Việt</h3>
+          <div className="flex flex-wrap gap-4 mt-2">
+            <Link href="#" className="text-blue-600 text-2xl md:text-4xl"><FaFacebookF /></Link>
+            <Link href="#" className="text-pink-600 text-2xl md:text-4xl"><FaInstagram /></Link>
+            <Link href="#" className="text-red-600 text-2xl md:text-4xl"><FaYoutube /></Link>
+            <Link href="#" className="text-black text-2xl md:text-4xl"><FaTiktok /></Link>
           </div>
         </div>
 
-        {/* Kết nối mạng xã hội */}
-        <div className="mb-4 md:mb-6">
-          <h3 className=" text-xl font-semibold">Kết nối với Di Động Việt</h3>
-          <div className="flex gap-10 mt-2">
-            <Link href="#" className="text-blue-600 text-4xl">
-              <FaFacebookF />
-            </Link>
-            <Link href="#" className="text-pink-600 text-4xl">
-              <FaInstagram />
-            </Link>
-            <Link href="#" className="text-red-600 text-4xl">
-              <FaYoutube />
-            </Link>
-            <Link href="#" className="text-black text-4xl">
-              <FaTiktok />
-            </Link>
+        {/* Kết nối */}
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Kết nối với Di Động Việt</h3>
+          <div className="flex flex-wrap gap-4 mt-2">
+            <Link href="#" className="text-blue-600 text-2xl md:text-4xl"><FaFacebookF /></Link>
+            <Link href="#" className="text-pink-600 text-2xl md:text-4xl"><FaInstagram /></Link>
+            <Link href="#" className="text-red-600 text-2xl md:text-4xl"><FaYoutube /></Link>
+            <Link href="#" className="text-black text-2xl md:text-4xl"><FaTiktok /></Link>
           </div>
         </div>
 
-        {/* Ứng dụng di động */}
-        <div className="mb-4 md:mb-6">
-          <h3 className=" md:text-lg font-semibold">Tải ngay ứng dụng nhận nhiều ưu đãi</h3>
-          <div className="flex gap-10 mt-2">
-            <Link href="#" className="text-blue-600 text-4xl">
-              <FaFacebookF />
-            </Link>
-            <Link href="#" className="text-pink-600 text-4xl">
-              <FaInstagram />
-            </Link>
-            <Link href="#" className="text-red-600 text-4xl">
-              <FaYoutube />
-            </Link>
-            <Link href="#" className="text-black text-4xl">
-              <FaTiktok />
-            </Link>
+        {/* Ứng dụng */}
+        <div>
+          <h3 className="text-lg md:text-xl font-semibold">Tải ngay ứng dụng nhận nhiều ưu đãi</h3>
+          <div className="flex flex-wrap gap-4 mt-2">
+            <Link href="#" className="text-blue-600 text-2xl md:text-4xl"><FaFacebookF /></Link>
+            <Link href="#" className="text-pink-600 text-2xl md:text-4xl"><FaInstagram /></Link>
+            <Link href="#" className="text-red-600 text-2xl md:text-4xl"><FaYoutube /></Link>
+            <Link href="#" className="text-black text-2xl md:text-4xl"><FaTiktok /></Link>
           </div>
         </div>
 
-        {/* Thông tin khác */}
-        <div className="text-center text-xs md:text-sm text-gray-600">
+        {/* Bản quyền */}
+        <div className="text-center text-xs md:text-sm text-gray-600 pt-4 border-t">
           <p>© 2025 Di Động Việt. All rights reserved.</p>
         </div>
       </div>

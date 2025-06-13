@@ -1,74 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carousel có hiệu ứng</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo dấu 3 chấm (...)</title>
   <style>
-    .fade {
-      transition: opacity 0.5s ease-in-out;
+    /* 1 dòng, bị cắt ngang */
+    .ellipsis-single-line {
+      width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid #ccc;
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+
+    /* Nhiều dòng (ví dụ: 2 dòng) */
+    .ellipsis-multi-line {
+      width: 250px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Số dòng muốn hiển thị */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      border: 1px solid #ccc;
+      padding: 5px;
     }
   </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body>
 
-  <div class="relative w-[350px]">
-    <img id="carousel-image" src="https://picsum.photos/id/1015/600/400"
-      alt="Ảnh sản phẩm"
-      class="w-full rounded shadow-lg fade opacity-100" />
+  <h2>Hiển thị 3 chấm (...) nếu chữ quá dài</h2>
 
-    <!-- Nút trái -->
-    <button onclick="prevImage()" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-200">
-      ◀
-    </button>
-
-    <!-- Nút phải -->
-    <button onclick="nextImage()" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 shadow hover:bg-gray-200">
-      ▶
-    </button>
-
-    <!-- Số thứ tự -->
-    <p id="image-count" class="text-center mt-2 text-sm text-gray-600"></p>
+  <div class="ellipsis-single-line">
+    Đây là đoạn văn bản rất dài sẽ bị cắt và hiển thị dấu ba chấm nếu không đủ chỗ.
   </div>
 
-  <script>
-    const images = [
-      'https://picsum.photos/id/1015/600/400',
-      'https://picsum.photos/id/1016/600/400',
-      'https://picsum.photos/id/1018/600/400',
-      'https://picsum.photos/id/1020/600/400',
-    ];
-
-    let index = 0;
-    const imgEl = document.getElementById('carousel-image');
-    const countEl = document.getElementById('image-count');
-
-    function updateImageWithFade() {
-      imgEl.classList.remove('opacity-100');
-      imgEl.classList.add('opacity-0');
-
-      setTimeout(() => {
-        imgEl.src = images[index];
-        countEl.textContent = `${index + 1}/${images.length}`;
-        imgEl.classList.remove('opacity-0');
-        imgEl.classList.add('opacity-100');
-      }, 200); // thời gian khớp hiệu ứng
-    }
-
-    function prevImage() {
-      index = (index === 0) ? images.length - 1 : index - 1;
-      updateImageWithFade();
-    }
-
-    function nextImage() {
-      index = (index === images.length - 1) ? 0 : index + 1;
-      updateImageWithFade();
-    }
-
-    // Khởi tạo ảnh đầu
-    updateImageWithFade();
-  </script>
+  <div class="ellipsis-multi-line">
+    Đây là đoạn văn bản rất dài trải dài trên nhiều dòng. Khi quá số dòng giới hạn thì phần dư sẽ bị ẩn đi và hiển thị dấu ba chấm ở cuối đoạn.
+  </div>
 
 </body>
 </html>

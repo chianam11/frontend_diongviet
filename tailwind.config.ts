@@ -1,11 +1,12 @@
 import type { Config } from "tailwindcss";
-
+import lineClamp from "@tailwindcss/line-clamp";
 export default {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  
   theme: {
     extend: {
       colors: {
@@ -13,18 +14,18 @@ export default {
         foreground: "var(--foreground)",
       },
       fontSize: {
-        base: '10px', // Default
+        base: "16px", // Default
       },
       screens: {
-       'xs': '320px', 
-        'sm': '480px', 
-        'md': '640px', 
-        'lg': '768px',
-        'xl': '1024px',
-        '2xl': '1280px',
-        '3xl': '1536px',
+        xs: "320px",
+        xm:"480px",
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
       },
     },
   },
-  plugins: [],
+  plugins: [lineClamp],
 } satisfies Config;
