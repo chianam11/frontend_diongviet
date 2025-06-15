@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Tạo một instance dùng chung
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL, // nên luôn dùng biến môi trường
+  baseURL: process.env.API_BASE_URL, // nên luôn dùng biến môi trường
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

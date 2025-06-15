@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
 
   const { slug } = await params;
-  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const apiUrl = process.env.API_BASE_URL;
   // fetch data
   const product = await fetch(`${apiUrl}/api/v1/products/phones/${slug}`).then(
     (res) => res.json()
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { slug } = await params;
   const product = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/products/phones/${slug}`
+    `${process.env.API_BASE_URL}/api/v1/products/phones/${slug}`
   ).then((res) => res.json());
   const productName = product.name;
   console.log(productName);
