@@ -1,4 +1,3 @@
-// lib/axiosInstance.ts
 import axios from 'axios';
 
 // Tạo một instance dùng chung
