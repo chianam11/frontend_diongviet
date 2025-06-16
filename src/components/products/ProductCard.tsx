@@ -36,7 +36,9 @@ const ProductCard: React.FC<Product> = ({
   const imageUrl =
     product_image && product_image.startsWith("http")
       ? product_image
-      : `${process.env.API_BASE_URL}/images/products/${product_image || ""}`;
+      : `${process.env.NEXT_PUBLIC_API_BASE_URL}/images/products/${
+          product_image || ""
+        }`;
 
   return (
     <div className="bg-white border pt-2 px-3 rounded-lg w-[200px] h-[420px] lg:w-[250px] text-sm cursor-pointer flex flex-col justify-bettwen shrink-0 ">

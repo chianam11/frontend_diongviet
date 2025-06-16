@@ -234,7 +234,7 @@ const ListProduct = () => {
                 />
                 <div className="flex items-center p-4 border-2 border-solid lg:w-[30rem] rounded-lg">
                   <Image
-                    src={`${process.env.API_BASE_URL}/images/products/${p.product_image}`}
+                    src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/images/products/${p.product_image}`}
                     alt={p.name}
                     width={64}
                     height={64}

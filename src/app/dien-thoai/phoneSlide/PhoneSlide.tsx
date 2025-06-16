@@ -84,7 +84,7 @@ const PhoneSlide = ({ image_arr }: PhoneSlideProps) => {
             <SwiperSlide key={index}>
               <div className="flex justify-center items-center h-full p-2 bg-white rounded-lg">
                 <Image
-                  src={`${process.env.API_BASE_URL}/images/products/${image_url}`}
+                  src={`${process.env.NEXT_PUBLIC_API_BASE_URL}/images/products/${image_url}`}
                   alt={`Phone Image ${index}`}
                   width={250}
                   height={250}

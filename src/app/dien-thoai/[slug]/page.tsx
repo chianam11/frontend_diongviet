@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   // read route params
 
   const { slug } = await params;
-  const apiUrl = process.env.API_BASE_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   // fetch data
   const product = await fetch(`${apiUrl}/api/v1/products/phones/${slug}`).then(
     (res) => res.json()
