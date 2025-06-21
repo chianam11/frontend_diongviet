@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { showCustomToast } from "@/components/toastifyAlert/ShowToast";
 import { clearCart } from "@/redux/cartSlice/cart_slice";
+import Image from "next/image";
 const UserProfile = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -25,6 +26,8 @@ const UserProfile = () => {
   });
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  console.log(showPasswordModal);
+
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [passwords, setPasswords] = useState({
     current: "",
@@ -85,6 +88,8 @@ const UserProfile = () => {
       setShowPasswordModal(false);
       setPasswords({ current: "", new: "", confirm: "" });
     } catch (error) {
+      console.log(error);
+
       showCustomToast({
         type: "error",
         title: "Lỗi",
@@ -122,14 +127,10 @@ const UserProfile = () => {
         <div className="relative h-32 default-bg-color">
           <div className="absolute -bottom-16 left-8">
             <div className="relative">
-              <img
+              <Image
                 src={user.profileImage}
                 alt="Profile"
                 className="w-32 h-32 rounded-full border-4 border-white object-cover"
-                onError={(e) =>
-                  ((e.target as HTMLImageElement).src =
-                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1")
-                }
               />
               <label className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full cursor-pointer hover:bg-blue-600 transition">
                 <PencilIcon className="w-5 h-5 text-white" />
