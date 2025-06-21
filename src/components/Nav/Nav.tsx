@@ -37,7 +37,7 @@ const Nav = () => {
         scrolled ? "shadow-md" : ""
       } py-4`}
     >
-      <div className="max-w-[1280px] mx-auto px-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
+      <div className="lg:px-28 mx-auto px-4 flex flex-wrap lg:flex-nowrap items-center justify-between gap-4">
         {/* Left: Menu + Logo + Cart Mobile */}
         <div className="flex items-center justify-around gap-4 w-full lg:w-auto">
           <Menu />

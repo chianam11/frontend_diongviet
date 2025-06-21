@@ -1,6 +1,6 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+"use client";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
 const Loader = () => {
@@ -24,7 +24,11 @@ const Loader = () => {
   if (!showLoader) return null;
 
   return (
-    <div className={`fixed z-[9999] bg-white/80 top-0 left-0 right-0 bottom-0 flex items-center justify-center transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'}`}>
+    <div
+      className={`fixed z-[9998] bg-white/80 top-0 left-0 right-0 bottom-0 flex items-center justify-center transition-opacity duration-300 ${
+        fadeOut ? "opacity-0" : "opacity-100"
+      }`}
+    >
       <div role="status" className="z-[10000]">
         <div className="typing-indicator">
           <div className="typing-circle"></div>
@@ -36,7 +40,7 @@ const Loader = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

@@ -57,7 +57,6 @@ const Login = () => {
           { username, password },
           { withCredentials: true }
         );
-        console.log(response);
 
         // Trong trường hợp API trả về { status: 200, ... }
         if (response.data.status === 200) {

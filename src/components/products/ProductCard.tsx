@@ -41,9 +41,8 @@ const ProductCard: React.FC<Product> = ({
         }`;
 
   return (
-    <div className="bg-white border pt-2 px-3 rounded-lg w-[200px] h-[420px] lg:w-[250px] text-sm cursor-pointer flex flex-col justify-bettwen shrink-0 ">
+    <div className="bg-white border pt-2 px-3 rounded-lg w-[200px] h-[420px] lg:w-[240px] text-sm cursor-pointer flex flex-col justify-bettwen shrink-0 ">
       <Link href={`/dien-thoai/${slug}`} className="block mb-2">
-        {/* Gắn nhãn trả góp */}
         <div
           className="flex items-center justify-between text-red-500"
           style={{ height: 22 }}
@@ -53,7 +52,6 @@ const ProductCard: React.FC<Product> = ({
           </p>
         </div>
 
-        {/* Ảnh chính */}
         <div className="relative w-full h-[180px] overflow-hidden">
           <Image
             src={imageUrl}
@@ -65,7 +63,6 @@ const ProductCard: React.FC<Product> = ({
           />
         </div>
 
-        {/* Banner khuyến mãi */}
         <div className="relative w-[50%] h-[50px] my-3">
           <Image
             src="/1743817539726_1741261309995_0_phaa_1.webp"
@@ -77,12 +74,10 @@ const ProductCard: React.FC<Product> = ({
           />
         </div>
 
-        {/* Tên sản phẩm */}
         <h3 className="font-semibold text-sm line-clamp-2 min-h-[40px]">
           {name}
         </h3>
 
-        {/* Giá */}
         <p className="text-red-500 font-bold">
           {price?.toLocaleString("vi-VN", {
             style: "currency",
@@ -90,14 +85,12 @@ const ProductCard: React.FC<Product> = ({
           })}
         </p>
 
-        {/* Discount */}
         {discount && (
           <span className="bg-red-500 text-white px-2 py-1 rounded text-xs mt-1 inline-block">
             -{discount}%
           </span>
         )}
 
-        {/* Ưu đãi thêm */}
         <div className="flex items-center justify-start rounded my-3 bg-slate-200 px-2 py-1">
           <div className="w-full text-left text-[10px] leading-tight">
             <p>
@@ -127,24 +120,37 @@ const ProductCategory: React.FC<ProductCategoryProps> = ({ title, brand }) => {
     lastFetched: null,
   };
 
+  const isLoading = brandData.data.length === 0;
+
   useEffect(() => {
     if (shouldRefetch(brandData.lastFetched)) {
       dispatch(fetchProducts({ brand }));
     }
   }, [brand, brandData.lastFetched]);
-  console.log(brandData);
 
   return (
-    <section className="rounded-lg shadow-xl p-3 mb-10 flex flex-col justify-center overflow-x-auto  bg-white">
-      <div>
+    <section className="rounded-lg shadow-xl p-3 mb-10 flex flex-col justify-center overflow-x-auto bg-white">
+      <div className=" mx-auto">
         <Link href="/dien-thoai.html">
           <h2 className="font-bold text-[#a42e2e] mb-3 text-lg">{title}</h2>
         </Link>
 
-        <div className=" scrollbar-hide lg:mx-auto justify-around .scroll-container flex overflow-x-auto gap-3 scroll-smooth scrollbar-hide scroll-container">
-          {brandData.data.map((p) => (
-            <ProductCard key={p.slug} {...p} />
-          ))}
+        <div className="scroll-container scrollbar-hide flex overflow-x-auto gap-3 scroll-smooth">
+          {isLoading
+            ? [...Array(5)].map((_, i) => (
+                <div
+                  key={i}
+                  className="bg-gray-200 animate-pulse rounded-lg w-[200px] h-[420px] lg:w-[250px] shrink-0 p-4 flex flex-col justify-between"
+                >
+                  <div className="h-[20px] bg-gray-300 rounded w-1/3 mb-2"></div>
+                  <div className="h-[180px] bg-gray-300 rounded mb-3"></div>
+                  <div className="h-[50px] bg-gray-300 rounded mb-3 w-1/2"></div>
+                  <div className="h-[40px] bg-gray-300 rounded mb-2"></div>
+                  <div className="h-[20px] bg-gray-300 rounded w-1/2 mb-2"></div>
+                  <div className="h-[40px] bg-gray-300 rounded mt-auto"></div>
+                </div>
+              ))
+            : brandData.data.map((p) => <ProductCard key={p.slug} {...p} />)}
         </div>
       </div>
     </section>

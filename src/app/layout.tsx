@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="font-sans text-base bg-white text-gray-900">
+      <body className="font-sans text-base bg-white text-gray-900 ">
         <Providers>
           <Nav />
           <ToastContainer
@@ -35,7 +35,7 @@ export default function RootLayout({
             pauseOnHover
             draggable
           />
-          <main className="bg-[#F7FAFC] p-2 text-sm min-h-screen">
+          <main className="bg-[#F7FAFC] p-2 text-sm min-h-screen lg:px-28">
             {children}
             <Support />
             <Loader />

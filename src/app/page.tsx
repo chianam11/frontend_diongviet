@@ -1,7 +1,9 @@
 import ProductCategory from "../components/products/ProductCard";
+// import BestSeller from "@/components/sale/BestSeller";
 export default function Home() {
   return (
-    <div className="lg:px-10">
+    <div>
+      {/* <BestSeller /> */}
       <ProductCategory
         title="iPhone Chính Hãng (Apple Authorized Reseller)"
         brand="apple"

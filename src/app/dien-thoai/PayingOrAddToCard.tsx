@@ -4,7 +4,7 @@ import { FaBolt } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "@/redux/cartSlice/cart_slice";
-import { RootState,AppDispatch } from "@/redux/store";
+import { RootState, AppDispatch } from "@/redux/store";
 
 type PayingOrAddToCardProps = {
   slug: string;
@@ -15,18 +15,17 @@ const PayingOrAddToCard = ({ slug }: PayingOrAddToCardProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Lấy số lượng sản phẩm hiện tại trong giỏ
-  const quantity = useSelector((state: RootState) => state.cart.items[slug] || 0);
+  const quantity = useSelector(
+    (state: RootState) => state.cart.items[slug] || 0
+  );
 
-  const handleCheckout = () => { 
-    if (quantity < 3) {
-        dispatch(addToCart({ slug, quantity:1 }));
+  const handleCheckout = () => {
+    if (quantity < 5) {
+      dispatch(addToCart({ slug, quantity: 1 }));
     }
 
-  
     router.push("/check-out");
   };
-
-  
 
   return (
     <div className="flex flex-col sm:flex-row gap-4">
@@ -38,8 +37,6 @@ const PayingOrAddToCard = ({ slug }: PayingOrAddToCardProps) => {
         <FaBolt className="text-lg" />
         <span>Mua ngay</span>
       </button>
-
-     
     </div>
   );
 };

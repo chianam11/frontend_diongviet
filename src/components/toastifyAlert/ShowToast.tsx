@@ -13,14 +13,12 @@ export const showCustomToast = ({
   message: string;
   toastId?: string;
 }) => {
-  console.log(toastId);
-
   toast(
     (props) => (
       <ToastifyCustom {...props} type={type} title={title} message={message} />
     ),
     {
-      className: "p-0",
+      className: "p-0 z-[9999]",
       toastId: toastId || `${type}-${title}-${message}`, // tạo toastId theo nội dung
     }
   );
