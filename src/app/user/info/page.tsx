@@ -130,7 +130,9 @@ const UserProfile = () => {
               <Image
                 src={user.profileImage}
                 alt="Profile"
-                className="w-32 h-32 rounded-full border-4 border-white object-cover"
+                width={150}
+                height={150}
+                className="rounded-full border-4 border-white object-cover"
               />
               <label className="absolute bottom-0 right-0 bg-blue-500 p-2 rounded-full cursor-pointer hover:bg-blue-600 transition">
                 <PencilIcon className="w-5 h-5 text-white" />
@@ -184,11 +186,11 @@ const UserProfile = () => {
                     <div className="sm:flex sm:items-start">
                       <div className="mt-3 text-center sm:mt-0 sm:text-left">
                         <h3 className="text-lg leading-6 font-medium text-gray-900">
-                          Confirm Logout
+                          Thông báo:
                         </h3>
                         <div className="mt-2">
                           <p className="text-sm text-gray-500">
-                            Are you sure you want to log out?
+                            Bạn có chắc chắn muốn đăng xuất tài khoản?
                           </p>
                         </div>
                       </div>
@@ -200,14 +202,14 @@ const UserProfile = () => {
                       onClick={handleLogout}
                       className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm"
                     >
-                      Logout
+                      Đăng xuất
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowLogoutModal(false)}
                       className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     >
-                      Cancel
+                      Hủy
                     </button>
                   </div>
                 </div>
