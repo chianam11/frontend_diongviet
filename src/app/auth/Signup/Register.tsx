@@ -44,6 +44,7 @@ const Register = () => {
           router.push("/auth/login");
         }
       } catch (error) {
+        console.error("Error during registration:", error);
         showCustomToast({
           title: "Lỗi",
           type: "error",
