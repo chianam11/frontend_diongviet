@@ -100,7 +100,7 @@ const Login = () => {
         <h2 className="text-2xl text-center font-bold mb-5 lg:text-3xl">
           Đăng nhập
         </h2>
-
+        <p>{"Tài khoản demo : guest password : guest"}</p>
         <form onSubmit={formik.handleSubmit}>
           {/* Username */}
 
