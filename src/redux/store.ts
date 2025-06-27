@@ -17,7 +17,6 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // default: localStorage
-
 // Gộp tất cả các slice lại
 const rootReducer = combineReducers({
   counter: counterSlice.reducer,
