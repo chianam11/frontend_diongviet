@@ -15,5 +15,4 @@ const NavInfoUser = () => {
     </div>
   )
 }
-
 export default NavInfoUser
