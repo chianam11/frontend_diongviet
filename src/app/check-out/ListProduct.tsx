@@ -225,22 +225,29 @@ const ListProduct = () => {
 
   // Tăng số lượng (max 5)
   const incrementQuantity = (slug: string) => {
+    dispatch(toggleLoader());
     const prod = products.product.find((p) => p.slug === slug);
     if (prod && prod.quantity < 6) {
       handleQuantityChange(slug, prod.quantity + 1);
     } else if (prod) {
       handleQuantityChange(slug, 5);
     }
+        dispatch(toggleLoader());
+
   };
 
   // Giảm số lượng (min 1)
   const decrementQuantity = (slug: string) => {
+        dispatch(toggleLoader());
+
     const prod = products.product.find((p) => p.slug === slug);
     if (prod && prod.quantity >= 1) {
       handleQuantityChange(slug, prod.quantity - 1);
     } else if (prod) {
       handleQuantityChange(slug, 1);
     }
+        dispatch(toggleLoader());
+
   };
 
   // Xóa sản phẩm khỏi giỏ hàng
