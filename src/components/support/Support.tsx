@@ -4,6 +4,8 @@ import Image from 'next/image'
 import { useState } from 'react'
 const Support = () => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(setIsOpen);
+  
   return (
   <div>
     {isOpen&&<div className='bg-black w-full fixed bottom-0 right-0 left-0 top-0 opacity-40'>
