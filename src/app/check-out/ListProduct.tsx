@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axiosInstance from "@/axios/axiosInstance";
 import { toggleLoader } from "@/redux/loaderSlide/loader.slice";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import { removeItem, updateItemQuantity } from "@/redux/cartSlice/cart_slice";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+
 type Product = {
   slug: string;
   name: string;
@@ -42,71 +43,9 @@ const ListProduct = () => {
   const items = useSelector((state: RootState) => state.cart.items);
   const authPay = useSelector((state: RootState) => state.authSlice.isLogin);
   const router = useRouter();
-  const handlePay = () => {
-    if (!authPay) {
-      showCustomToast({
-        type: "error",
-        title: "Vui lòng đăng nhập",
-        message: "Bạn cần đăng nhập để thực hiện thanh toán.",
-      });
-      dispatch(toggleLoader());
-      setTimeout(() => {
-        dispatch(toggleLoader());
-      }, 1000);
-      router.push("/auth/login");
-      return;
-    }
 
-    if (
-      // ít nhất 1 true
-      Object.values(selectedProducts).some((value) => value === true)
-    ) {
-      //lặp product
-      Object.entries(selectedProducts).forEach(([key], index: number) => {
-        if (
-          selectedProducts[key] === true &&
-          products.product.find((obj) => obj.slug === key)
-        ) {
-          const data = products.product[index];
-          dispatch(removeItem({ slug: data.slug }));
-          setProducts((prev) => {
-            const updatedProductList = prev.product.filter(
-              (item) => item.slug !== key
-            );
-
-            const updatedTotal = updatedProductList.reduce(
-              (acc, curr) => acc + (curr.totalPrice ?? 0),
-              0
-            );
-
-            return {
-              ...prev,
-              product: updatedProductList,
-              totalOrderPrice: updatedTotal,
-            };
-          });
-        }
-        if (selectedProducts[key] === true) {
-          delete selectedProducts[key];
-        }
-      });
-      return showCustomToast({
-        type: "success",
-        title: "Thanh toán thành công",
-        message: "Đơn hàng sẽ được xử lý trong thời gian sớm nhất.",
-      });
-    } else {
-      // Tất cả đều không phải true → không làm gì cả
-
-      return showCustomToast({
-        type: "error",
-        title: "Vui lòng:",
-        message: "Chọn ít nhất 1 đơn hàng của bạn để tiếp tục thanh toán",
-      });
-    }
-  };
   // Tính tổng tiền dựa trên sản phẩm được chọn
-  const calculateTotalPrice = (
+  const calculateTotalPrice = useCallback((
     productList: ProductWithQuantity[],
     selectedMap: { [slug: string]: boolean }
   ) => {
@@ -114,10 +53,10 @@ const ListProduct = () => {
       if (selectedMap[prod.slug]) return total + prod.price * prod.quantity;
       return total;
     }, 0);
-  };
+  }, []);
 
   // Fetch sản phẩm theo slug + quantity từ redux cart
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     const productsItems = Object.entries(items).map(([slug, quantity]) => ({
       slug,
       quantity: Number(quantity),
@@ -134,13 +73,10 @@ const ListProduct = () => {
       const res = await axiosInstance.post("/api/v1/products/phones/batch", {
         items: productsItems,
       });
-      console.log(2);
 
       if (res && res.data) {
         const fetched: ProductWithQuantity[] = res.data.products.map(
           (p: Product) => {
-            console.log(p);
-
             const qty =
               productsItems.find((item) => item.slug === p.slug)?.quantity ?? 1;
             return {
@@ -159,49 +95,41 @@ const ListProduct = () => {
 
         setSelectedProducts(selectedMap);
         setProducts({ product: fetched, totalOrderPrice: total });
-
-        dispatch(toggleLoader());
       }
     } catch (e) {
       console.error("Error fetching products:", e);
+    } finally {
       dispatch(toggleLoader());
     }
-  };
+  }, [items, dispatch, calculateTotalPrice]);
 
   // Cập nhật số lượng sản phẩm trong UI và redux
-  const [pendingUpdates, setPendingUpdates] = useState<
-    { slug: string; quantity: number }[]
-  >([]);
-
-  // Effect để xử lý cập nhật Redux
-  useEffect(() => {
-    fetchProducts();
-    if (pendingUpdates.length > 0) {
-      pendingUpdates.forEach((update) => {
-        dispatch(updateItemQuantity(update));
-      });
-      setPendingUpdates([]);
-    }
-  }, [pendingUpdates, dispatch]);
-
-  const handleQuantityChange = (slug: string, value: number) => {
+  const handleQuantityChange = useCallback((slug: string, value: number) => {
     const numericValue = Number(value);
     let newValue = isNaN(numericValue) ? 1 : numericValue;
 
     if (newValue <= 0) {
       if (confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")) {
-        return handleRemoveItem(slug);
-      } else newValue = 1;
+        handleRemoveItem(slug);
+        return;
+      } else {
+        newValue = 1;
+      }
     }
-    if (newValue >= 6) {
+    
+    if (newValue > 5) {
       newValue = 5;
-      return showCustomToast({
+      showCustomToast({
         type: "error",
         title: "Xin lỗi:",
         message: " Mỗi sản phẩm chỉ mua được với số lượng nhỏ hơn hoặc bằng 5",
       });
     }
 
+    // Cập nhật Redux store
+    dispatch(updateItemQuantity({ slug, quantity: newValue }));
+
+    // Cập nhật local state
     setProducts((prev) => {
       const newProducts = prev.product.map((prod) => {
         if (prod.slug === slug) {
@@ -219,39 +147,48 @@ const ListProduct = () => {
         totalOrderPrice: calculateTotalPrice(newProducts, selectedProducts),
       };
     });
-
-    setPendingUpdates((prev) => [...prev, { slug, quantity: newValue }]);
-  };
+  }, [dispatch, calculateTotalPrice, selectedProducts]);
 
   // Tăng số lượng (max 5)
-  const incrementQuantity = (slug: string) => {
-    dispatch(toggleLoader());
-    const prod = products.product.find((p) => p.slug === slug);
-    if (prod && prod.quantity < 6) {
-      handleQuantityChange(slug, prod.quantity + 1);
-    } else if (prod) {
-      handleQuantityChange(slug, 5);
-    }
-        dispatch(toggleLoader());
+  const incrementQuantity = useCallback((slug: string) => {
+    const product = products.product.find((p) => p.slug === slug);
+    if (!product) return;
 
-  };
+    const newQuantity = Math.min(product.quantity + 1, 5);
+    
+    if (newQuantity === 5) {
+      showCustomToast({
+        type: "error",
+        title: "Xin lỗi:",
+        message: "Mỗi sản phẩm chỉ mua được với số lượng nhỏ hơn hoặc bằng 5",
+      });
+    }
+    
+    handleQuantityChange(slug, newQuantity);
+  }, [products.product, handleQuantityChange]);
 
   // Giảm số lượng (min 1)
-  const decrementQuantity = (slug: string) => {
-        dispatch(toggleLoader());
+  const decrementQuantity = useCallback((slug: string) => {
+    const product = products.product.find((p) => p.slug === slug);
+    if (!product) return;
 
-    const prod = products.product.find((p) => p.slug === slug);
-    if (prod && prod.quantity >= 1) {
-      handleQuantityChange(slug, prod.quantity - 1);
-    } else if (prod) {
-      handleQuantityChange(slug, 1);
+    const newQuantity = Math.max(product.quantity - 1, 1);
+    
+    if (newQuantity === 0) {
+      if (confirm("Bạn có chắc muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+        handleRemoveItem(slug);
+        return;
+      } else {
+        handleQuantityChange(slug, 1);
+        return;
+      }
     }
-        dispatch(toggleLoader());
-
-  };
+    
+    handleQuantityChange(slug, newQuantity);
+  }, [products.product, handleQuantityChange]);
 
   // Xóa sản phẩm khỏi giỏ hàng
-  const handleRemoveItem = (slug: string) => {
+  const handleRemoveItem = useCallback((slug: string) => {
     dispatch(removeItem({ slug }));
 
     setProducts((prev) => {
@@ -271,23 +208,89 @@ const ListProduct = () => {
       title: "Xóa sản phẩm",
       message: "Sản phẩm đã được xóa khỏi giỏ hàng.",
     });
-  };
+  }, [dispatch, calculateTotalPrice, selectedProducts]);
 
   // Bật/tắt chọn sản phẩm
-  const handleToggleSelect = (slug: string) => {
+  const handleToggleSelect = useCallback((slug: string) => {
     setSelectedProducts((prev) => {
       const newSelection = { ...prev, [slug]: !prev[slug] };
-      const newTotal = calculateTotalPrice(products.product, newSelection);
-
-      // Cập nhật tổng tiền ngay
+      
+      // Cập nhật tổng tiền
       setProducts((prevProducts) => ({
         ...prevProducts,
-        totalOrderPrice: newTotal,
+        totalOrderPrice: calculateTotalPrice(prevProducts.product, newSelection),
       }));
 
       return newSelection;
     });
-  };
+  }, [calculateTotalPrice]);
+
+  const handlePay = useCallback(() => {
+    if (!authPay) {
+      showCustomToast({
+        type: "error",
+        title: "Vui lòng đăng nhập",
+        message: "Bạn cần đăng nhập để thực hiện thanh toán.",
+      });
+      dispatch(toggleLoader());
+      setTimeout(() => {
+        dispatch(toggleLoader());
+      }, 1000);
+      router.push("/auth/login");
+      return;
+    }
+
+    if (Object.values(selectedProducts).some((value) => value === true)) {
+      // Tạo bản sao của selectedProducts để tránh xung đột
+      const selectedCopy = { ...selectedProducts };
+      
+      // Lọc ra các sản phẩm được chọn
+      const selectedSlugs = Object.keys(selectedCopy).filter(slug => selectedCopy[slug]);
+      
+      // Xóa các sản phẩm được chọn khỏi giỏ hàng
+      selectedSlugs.forEach(slug => {
+        dispatch(removeItem({ slug }));
+      });
+      
+      // Cập nhật UI
+      setProducts((prev) => {
+        const updatedProductList = prev.product.filter(
+          (item) => !selectedSlugs.includes(item.slug)
+        );
+
+        const updatedTotal = calculateTotalPrice(updatedProductList, {});
+
+        return {
+          product: updatedProductList,
+          totalOrderPrice: updatedTotal,
+        };
+      });
+      
+      // Xóa các sản phẩm đã chọn khỏi selectedProducts
+      setSelectedProducts((prev) => {
+        const newSelection = { ...prev };
+        selectedSlugs.forEach(slug => delete newSelection[slug]);
+        return newSelection;
+      });
+      
+      showCustomToast({
+        type: "success",
+        title: "Thanh toán thành công",
+        message: "Đơn hàng sẽ được xử lý trong thời gian sớm nhất.",
+      });
+    } else {
+      showCustomToast({
+        type: "error",
+        title: "Vui lòng:",
+        message: "Chọn ít nhất 1 đơn hàng của bạn để tiếp tục thanh toán",
+      });
+    }
+  }, [authPay, dispatch, router, selectedProducts, calculateTotalPrice]);
+
+  // Fetch products khi component mount hoặc items thay đổi
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   return (
     <div className="p-4">
@@ -327,23 +330,13 @@ const ListProduct = () => {
                       </button>
                       <input
                         type="number"
-                        min={0}
+                        min={1}
                         max={5}
-                        readOnly
                         value={p.quantity}
                         onChange={(e) => {
                           const value = parseInt(e.target.value);
-
                           if (!isNaN(value)) {
                             handleQuantityChange(p.slug, value);
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (
-                            e.target.value === "" ||
-                            parseInt(e.target.value) < 1
-                          ) {
-                            handleQuantityChange(p.slug, 1);
                           }
                         }}
                         className="w-16 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-emerald-200"
